@@ -21,11 +21,11 @@ ng config cli.schematicCollections '["@angular-eslint/schematics"]'
 ## Conventional Commit Lint
 ```powershell
 npm install -g @commitlint/cli @commitlint/config-conventional
-echo @"
+ConvertFrom-Json @"
 { 
     "extends": ["@commitlint/config-conventional"]
 }
-"@ > .commitlintrc.json
+"@ | ConvertTo-Json | Set-Content ".commitlintrc.json"
 npm i -D husky
 npx husky install
 npx husky add .husky/commit-msg 'npx commitlint --edit $1'
@@ -36,7 +36,7 @@ npx husky add .husky/commit-msg 'npx commitlint --edit $1'
 ### Install
 ```powershell
 npm install prettier --save-dev
-echo @"
+ConvertFrom-Json @"
 {                      
   "tabWidth": 2,
   "useTabs": false,
@@ -48,13 +48,8 @@ echo @"
   "bracketSameLine": true,
   "printWidth": 80
 }
-"@ > .prettierrc.json
-echo @"
-build
-coverage
-e2e
-node_modules
-"@ > .prettierignore
+"@ | ConvertTo-Json | Set-Content ".prettierrc.json"
+Get-Content -Path .gitignore | Set-Content ".prettierignore"
 ```
 
 ### Configure with ESLint
@@ -66,14 +61,14 @@ npm install prettier-eslint eslint-config-prettier eslint-plugin-prettier --save
 ## Stylelint
 ```powershell
 npm install --save-dev stylelint stylelint-config-standard-scss
-echo @"
+ConvertFrom-Json @"
 {
   "extends": [
     "stylelint-prettier/recommended",
     "stylelint-config-standard-scss"
   ]
 }
-"@ > .stylelintrc.json
+"@ | ConvertTo-Json | Set-Content ".stylelintrc.json"
 ```
 
 ## Jest
@@ -86,7 +81,7 @@ Then update the `angular.json` file
 // angular.json
 {
   "projects": {
-    "my-app": {
+    "my-app": { // <- The name of your app
       "architect": {
         "test": {
           "builder": "@angular-devkit/build-angular:jest",
