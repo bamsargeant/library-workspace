@@ -46,7 +46,8 @@ ConvertFrom-Json @"
   "arrowParens": "avoid",
   "trailingComma": "es5",
   "bracketSameLine": true,
-  "printWidth": 80
+  "printWidth": 80,
+  "endOfLine": "auto"
 }
 "@ | ConvertTo-Json | Set-Content ".prettierrc.json"
 Get-Content -Path .gitignore | Set-Content ".prettierignore"
